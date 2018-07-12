@@ -1,0 +1,24 @@
+<div class="banner" [ngClass]="{'startpage': isStartPage }" role="banner">
+  <div class="bg"></div>
+  <h1 *ngIf="isStartPage">
+    {{model.Title}}
+    <small *ngIf="model.Heading.Ingress !== null">
+      {{model.Heading.Ingress.Value}}
+    </small>
+  </h1>
+  <!--<app-submenu></app-submenu>-->
+</div>
+<div class="header clearfix">
+  <div class="container">
+    <nav>
+      <!--<ul class="nav nav-pills pull-right">
+        @foreach (var item in sitemap) {
+        if (!item.IsHidden) {
+        <li role="presentation" @Css(item)><a href="@item.Permalink">@item.MenuTitle</a></li>
+        }
+        }
+      </ul>-->
+    </nav>
+    <a href="/"><img src="../assets/img/logo.png" alt="Piranha CMS" /></a>
+  </div>
+</div>
