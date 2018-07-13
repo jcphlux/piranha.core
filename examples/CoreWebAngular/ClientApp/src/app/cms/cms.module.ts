@@ -5,10 +5,7 @@ import { CmsComponent } from './cms.component';
 import { CmsService } from './cms.service';
 import { PageComponent } from './page/page.component';
 import { PostComponent } from './post/post.component';
-import { HtmlBlockComponent } from './shared/html-block/html-block.component';
-import { HtmlColumnBlockComponent } from './shared/html-column-block/html-column-block.component';
-import { ImageBlockComponent } from './shared/image-block/image-block.component';
-import { QuoteBlockComponent } from './shared/quote-block/quote-block.component';
+import { BlockComponent } from './shared/block/block.component';
 import { FirstParagraphPipe } from './shared/utils';
 import { StartComponent } from './start/start.component';
 import { TeaserPageComponent } from './teaser/teaser-page.component';
@@ -28,10 +25,7 @@ import { RouterModule } from '@angular/router';
     ArchiveComponent,
     PageComponent,
     PostComponent,
-    HtmlBlockComponent,
-    HtmlColumnBlockComponent,
-    ImageBlockComponent,
-    QuoteBlockComponent,
+    BlockComponent,    
     StartComponent,
     TeaserPageComponent,
     TeasersComponent,
@@ -44,7 +38,8 @@ import { RouterModule } from '@angular/router';
 
 })
 export class CmsModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(apiUrl: string = "api/cms"): ModuleWithProviders {
+    CmsService.url = apiUrl;
     return {
       ngModule: CmsModule,
       providers: [CmsService]

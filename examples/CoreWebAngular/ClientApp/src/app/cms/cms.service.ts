@@ -5,48 +5,48 @@ import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class CmsService {
-private controlerUrl: string
+  public static url: string
   constructor(private http: Http) {
 
   }
 
   getSiteMap(id: string): Observable<any> {
-    const url: string = `${this.controlerUrl}/sitemap?id=${id}`;
+    const url: string = `${CmsService.url}/sitemap?id=${id}`;
     return this.http.get(url)
       .pipe(map(res => res.json()),
         catchError(this.handleError));
   }
 
   getArchive(id: string, year: number = null, month: number = null, page: number = null, category: string = null, tag: string = null): Observable<any> {
-    const url: string = `${this.controlerUrl}/archive?id=${id}&year=${year}&month=${month}&page=${page}&category=${category}&tag=${tag}`;
+    const url: string = `${CmsService.url}/archive?id=${id}&year=${year}&month=${month}&page=${page}&category=${category}&tag=${tag}`;
     return this.http.get(url)
       .pipe(map(res => res.json()),
         catchError(this.handleError));
   }
 
   getPage(id: string): Observable<any> {
-    const url: string = `${this.controlerUrl}/page?id=${id}`;
+    const url: string = `${CmsService.url}/page?id=${id}`;
     return this.http.get(url)
       .pipe(map(res => res.json()),
         catchError(this.handleError));
   }
 
   getPost(id: string): Observable<any> {
-    const url: string = `${this.controlerUrl}/post?id=${id}`;
+    const url: string = `${CmsService.url}/post?id=${id}`;
     return this.http.get(url)
       .pipe(map(res => res.json()),
         catchError(this.handleError));
   }
 
   getTeaserPage(id: string): Observable<any> {
-    const url: string = `${this.controlerUrl}/teaserpage?id=${id}`;
+    const url: string = `${CmsService.url}/teaserpage?id=${id}`;
     return this.http.get(url)
       .pipe(map(res => res.json()),
         catchError(this.handleError));
   }
 
   getImgUrl(id: string, size: number): Observable<string> {
-    const url: string = `${this.controlerUrl}/imgurl?id=${id}&size=${size}`;
+    const url: string = `${CmsService.url}/imgurl?id=${id}&size=${size}`;
     return this.http.get(url)
       .pipe(map(res => res.json()),
         catchError(this.handleError));

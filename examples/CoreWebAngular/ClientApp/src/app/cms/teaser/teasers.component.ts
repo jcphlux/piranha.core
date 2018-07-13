@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CmsService } from '../cms.service';
 import { Observable } from 'rxjs/Observable';
 
@@ -9,14 +9,21 @@ import { Observable } from 'rxjs/Observable';
 
 export class TeasersComponent {
 
+  private _model: any;
+
+  @Input()
+  set model(val: any) {
+    this._model = val;
+    this.hasTeasers = val.length > 0;
+    this.teaserWidth = this.hasTeasers ? 12 / val.length : 0;
+  };
+
   teaserWidth: number;
-  model: any;
-  constructor(private cmsService: CmsService) {
+  hasTeasers: boolean;
 
+  get model(): any {
+    return this._model;
   }
 
-  imgUrl(id: string): Observable<string> {
-    return this.cmsService.getImgUrl(id, 256);
-  }
-
+  constructor() { }
 }
