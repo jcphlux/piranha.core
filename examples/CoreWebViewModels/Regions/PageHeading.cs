@@ -8,6 +8,7 @@
  * 
  */
 
+using CoreWebViewModels.Blocks;
 using Piranha.AttributeBuilder;
 using Piranha.Extend.Fields;
 
@@ -22,13 +23,9 @@ namespace CoreWebViewModels.Regions
         /// Gets/sets the optional primary image.
         /// </summary>
         [Field(Title = "Primary Image")]
-        public ImageField PrimaryImage { get; set; }
+        public UrlImageField PrimaryImage { get; set; }
 
-        /// <summary>
-        /// Gets/sets the optional teaser image url.
-        /// </summary>
-        [Field]
-        public StringField ImageUrl { get; set; }
+
 
         /// <summary>
         /// Gets/sets the optional ingress.

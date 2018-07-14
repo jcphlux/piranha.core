@@ -8,10 +8,13 @@
  * 
  */
 
+using CoreWebAngular.JsonConverter;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Piranha;
+using Piranha.Extend.Blocks;
 using System;
+using System.Collections.Generic;
 
 namespace CoreWebAngular.Controllers
 {
@@ -38,10 +41,17 @@ namespace CoreWebAngular.Controllers
         public CmsController(IApi api)
         {
             this.api = api;
+
             serializerSettings = new JsonSerializerSettings
             {
-                Formatting = Formatting.Indented
+                Formatting = Formatting.Indented    
             };
+
+            serializerSettings.Converters.Add(new ClassNameCoverter<HtmlBlock>());
+            serializerSettings.Converters.Add(new ClassNameCoverter<HtmlColumnBlock>());
+            serializerSettings.Converters.Add(new ClassNameCoverter<ImageBlock>());
+            serializerSettings.Converters.Add(new ClassNameCoverter<QuoteBlock>());
+            serializerSettings.Converters.Add(new ClassNameCoverter<TextBlock>());
         }
 
         /// <summary>
@@ -74,10 +84,7 @@ namespace CoreWebAngular.Controllers
             else if (tag.HasValue)
                 model = api.Archives.GetByTagId<CoreWebViewModels.BlogArchive>(id, tag.Value, page, year, month);
             else model = api.Archives.GetById<CoreWebViewModels.BlogArchive>(id, page, year, month);
-            //ViewBag.CurrentPage = model.Id;
-            //ViewBag.SiteId = (Guid)HttpContext.Items["Piranha_SiteId"];
 
-            //return View(model);
             var json = JsonConvert.SerializeObject(model, serializerSettings);
             return new OkObjectResult(json);
         }
@@ -94,10 +101,6 @@ namespace CoreWebAngular.Controllers
             {
                 model.Heading.ImageUrl = Url.Content((string)model.Heading.PrimaryImage);
             }
-            //ViewBag.CurrentPage = model.Id;
-            //ViewBag.SiteId = (Guid)HttpContext.Items["Piranha_SiteId"];
-
-            //return View(model);
 
             var json = JsonConvert.SerializeObject(model, serializerSettings);
             return new OkObjectResult(json);
@@ -111,21 +114,17 @@ namespace CoreWebAngular.Controllers
         public IActionResult Post(Guid id)
         {
             var model = api.Posts.GetById<CoreWebViewModels.BlogPost>(id);           
-            //ViewBag.CurrentPage = model.BlogId;
-            //ViewBag.SiteId = (Guid)HttpContext.Items["Piranha_SiteId"];
 
-            //return View(model);
             var json = JsonConvert.SerializeObject(model, serializerSettings);
             return new OkObjectResult(json);
         }
 
         /// <summary>
-        /// Gets the page with the specified id.
+        /// Gets the TeaserPage with the specified id.
         /// </summary>
         /// <param name="id">The unique id</param>
-        /// <param name="startpage">If this is the site startpage</param>
         [HttpGet("teaserpage")]
-        public IActionResult TeaserPage(Guid id, bool startpage)
+        public IActionResult TeaserPage(Guid id)
         {
             var model = api.Pages.GetById<CoreWebViewModels.TeaserPage>(id);
             if (model.Heading.PrimaryImage.HasValue)
@@ -140,12 +139,6 @@ namespace CoreWebAngular.Controllers
                     teaser.ImageUrl = Url.Content(teaser.Image.Resize(api, 256));
                 }
             }
-            //ViewBag.CurrentPage = model.Id;
-            //ViewBag.SiteId = (Guid)HttpContext.Items["Piranha_SiteId"];
-
-            //if (startpage)
-            //    return View("Start", model);
-            //return View(model);
 
             var json = JsonConvert.SerializeObject(model, serializerSettings);
             return new OkObjectResult(json);

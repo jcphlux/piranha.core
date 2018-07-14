@@ -1,8 +1,11 @@
 <ng-container *ngIf="!isLoading">
   <div class="container body">
     <h1>{{model.Title}}</h1>
-    <div class="lead" innerHTML="{{model.Body}}">
+
+    <div class="lead">
+      {{model.Body}}
     </div>
+
       <article *ngFor="let post of model.Archive.Posts">
         <header>
           <h2><a href="{{post.Permalink}}">{{post.Title}}</a></h2>
@@ -17,5 +20,6 @@
           </ng-container>
         </ng-container>
       </article>
+
   </div>
 </ng-container>

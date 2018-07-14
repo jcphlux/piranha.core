@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { CmsService } from '../cms.service';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -18,12 +17,12 @@ export class TeasersComponent {
     this.teaserWidth = this.hasTeasers ? 12 / val.length : 0;
   };
 
-  teaserWidth: number;
-  hasTeasers: boolean;
-
   get model(): any {
     return this._model;
   }
+
+  teaserWidth: number;
+  hasTeasers: boolean;
 
   constructor() { }
 }
