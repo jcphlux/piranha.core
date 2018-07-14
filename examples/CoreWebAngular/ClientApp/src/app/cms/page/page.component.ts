@@ -12,6 +12,7 @@ export class PageComponent {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   model: any;
+  third: any;
   isLoading: boolean = true;
   constructor(private cmsService: CmsService) {
 

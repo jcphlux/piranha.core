@@ -15,9 +15,7 @@ import { CmsModule } from './cms/cms.module';
     HttpClientModule,
     HttpModule,
     FormsModule,
-    //RouterModule.forRoot([
-    //  { path: '', component: HomeComponent, pathMatch: 'full' }
-    //])
+    //add any non CMS routes before this.
     CmsModule.forRoot()
   ],
   providers: [],
