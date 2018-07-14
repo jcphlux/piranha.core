@@ -65,6 +65,7 @@ namespace CoreWeb
             //services.AddPiranhaEF(options => options.UseMySql("server=localhost;port=3306;database=piranha;uid=root;password=password"));
             //services.AddPiranhaIdentityWithSeed<IdentityMySQLDb>(options => options.UseMySql("server=localhost;port=3306;database=piranha;uid=root;password=password"));
             services.AddPiranhaManager();
+            services.AddPiranhaApplication();
 
             return services.BuildServiceProvider();
         }
@@ -83,6 +84,7 @@ namespace CoreWeb
 
             // Add custom blocks
             App.Blocks.Register<CoreWebViewModels.Blocks.SliderGroup>();
+            App.Blocks.Register<CoreWebViewModels.Blocks.SliderItem>();
 
             // Build types
             var pageTypeBuilder = new Piranha.AttributeBuilder.PageTypeBuilder(api)
@@ -177,10 +179,11 @@ namespace CoreWeb
                     Body =
                         "<p>Piranha is currently built for <code>NetStandard 2.0</code> and uses the following awesome packages:</p>" +
                         "<ul> " +
-                        "<li>AutoMapper <code>6.2.1</code></li>" +
-                        "<li>Markdig <code>0.14.6</code></li>" +
-                        "<li>Microsoft.EntityFrameworkCore <code>2.0.1</code></li>" +
-                        "<li>Newtonsoft.Json <code>10.0.3</code></li>" +
+                        "<li>AutoMapper <code>7.0.1</code></li>" +
+                        "<li>Markdig <code>0.15.0</code></li>" +
+                        "<li>Microsoft.AspNetCore <code>2.1.1</code></li>" +
+                        "<li>Microsoft.EntityFrameworkCore <code>2.1.1</code></li>" +
+                        "<li>Newtonsoft.Json <code>11.0.2</code></li>" +
                         "</ul>"
                 });
                 startPage.Blocks.Add(new HtmlBlock {
