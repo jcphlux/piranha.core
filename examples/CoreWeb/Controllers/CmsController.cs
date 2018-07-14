@@ -42,13 +42,13 @@ namespace CoreWeb.Controllers
         /// <param name="category">The optional category id</param>
         [Route("archive")]
         public IActionResult Archive(Guid id, int? year = null, int? month = null, int? page = null, Guid? category = null, Guid? tag = null) {
-            CoreWebViewModels.BlogArchive model;
+            Models.BlogArchive model;
 
             if (category.HasValue)
-                model = api.Archives.GetByCategoryId<CoreWebViewModels.BlogArchive>(id, category.Value, page, year, month);
+                model = api.Archives.GetByCategoryId<Models.BlogArchive>(id, category.Value, page, year, month);
             else if (tag.HasValue)
-                model = api.Archives.GetByTagId<CoreWebViewModels.BlogArchive>(id, tag.Value, page, year, month);
-            else model = api.Archives.GetById<CoreWebViewModels.BlogArchive>(id, page, year, month);
+                model = api.Archives.GetByTagId<Models.BlogArchive>(id, tag.Value, page, year, month);
+            else model = api.Archives.GetById<Models.BlogArchive>(id, page, year, month);
 
             return View(model);
         }
@@ -59,7 +59,7 @@ namespace CoreWeb.Controllers
         /// <param name="id">The unique id</param>
         [Route("page")]
         public IActionResult Page(Guid id) {
-            var model = api.Pages.GetById<CoreWebViewModels.StandardPage>(id);
+            var model = api.Pages.GetById<Models.StandardPage>(id);
 
             return View(model);
         }
@@ -70,7 +70,7 @@ namespace CoreWeb.Controllers
         /// <param name="id">The unique id</param>
         [Route("post")]
         public IActionResult Post(Guid id) {
-            var model = api.Posts.GetById<CoreWebViewModels.BlogPost>(id);
+            var model = api.Posts.GetById<Models.BlogPost>(id);
 
             return View(model);
         }
@@ -82,7 +82,7 @@ namespace CoreWeb.Controllers
         /// <param name="startpage">If this is the site startpage</param>
         [Route("teaserpage")]
         public IActionResult TeaserPage(Guid id, bool startpage) {
-            var model = api.Pages.GetById<CoreWebViewModels.TeaserPage>(id);
+            var model = api.Pages.GetById<Models.TeaserPage>(id);
 
             if (startpage)
                 return View("Start", model);
