@@ -1,36 +1,33 @@
 import { Component } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
 import { CmsService } from '../cms.service';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
-    selector: 'teaser-page',
-    templateUrl: './teaser-page.component.html'
+  selector: 'wildcard',
+  templateUrl: './wildcard.component.html'
 })
-
-export class TeaserPageComponent {
+ // WildCardComponent to deal with sitemap not being loaded for deep liinking
+export class WildCardComponent {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  sitemap: any;
   model: any;
   isLoading: boolean = true;
-  constructor(private cmsService: CmsService) {
+  currentPage: string;
+  currentPageChild: boolean;
+
+  constructor(private cmsService: CmsService, private router: Router) {
 
   }
 
   ngOnInit(): void {
-
-    this.cmsService.loadingChanged
+    this.cmsService.sitemapChanged
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value) => {
-        this.isLoading = value;
-      });
-
-    this.cmsService.modelChanged
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((value) => {
-        this.model = value[0];
-      });
+          this.router.navigate([this.router.url])
+        }); 
   }
 
   ngOnDestroy(): void {

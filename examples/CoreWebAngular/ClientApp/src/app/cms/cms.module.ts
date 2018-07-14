@@ -11,29 +11,54 @@ import { StartComponent } from './start/start.component';
 import { TeaserPageComponent } from './teaser/teaser-page.component';
 import { TeasersComponent } from './teaser/teasers.component';
 import { RouterModule } from '@angular/router';
+import { WildCardComponent } from './wildcard/wildcard.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forRoot([
-      { path: '', component: CmsComponent, pathMatch: 'full' },
-      { path: '**', component: CmsComponent }
+      {
+        path: '', component: CmsComponent,
+        children: [
+          { path: '**', component: WildCardComponent }
+        ]
+      }
     ])
   ],
-  declarations: [
-    FirstParagraphPipe,
+  entryComponents: [
+    WildCardComponent,
+    CmsComponent,
     ArchiveComponent,
     PageComponent,
     PostComponent,
-    BlockComponent,    
     StartComponent,
-    TeaserPageComponent,
     TeasersComponent,
-    CmsComponent
+    TeaserPageComponent
+  ],
+  declarations: [
+    FirstParagraphPipe,
+    WildCardComponent,
+    CmsComponent,
+    BlockComponent,
+    ArchiveComponent,
+    PageComponent,
+    PostComponent,
+    StartComponent,
+    TeasersComponent,
+    TeaserPageComponent
   ],
   exports: [
     RouterModule,
-    CmsComponent
+    FirstParagraphPipe,
+    BlockComponent,
+    WildCardComponent,
+    CmsComponent,
+    ArchiveComponent,
+    PageComponent,
+    PostComponent,
+    StartComponent,
+    TeasersComponent,
+    TeaserPageComponent
   ],
 
 })

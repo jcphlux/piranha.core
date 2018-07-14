@@ -1,6 +1,6 @@
-<div class="banner" [ngClass]="{'startpage': isStartPage }" role="banner">
+<div class="banner" [ngClass]="{'startpage': !isLoading && model.IsStartPage }" role="banner">
   <div class="bg"></div>
-  <h1 *ngIf="isStartPage">
+  <h1 *ngIf="!isLoading && model.IsStartPage">
     {{model.Title}}
     <small *ngIf="model.Heading.Ingress !== null">
       {{model.Heading.Ingress.Value}}
@@ -11,14 +11,13 @@
 <div class="header clearfix">
   <div class="container">
     <nav>
-      <!--<ul class="nav nav-pills pull-right">
-        @foreach (var item in sitemap) {
-        if (!item.IsHidden) {
-        <li role="presentation" @Css(item)><a href="@item.Permalink">@item.MenuTitle</a></li>
-        }
-        }
-      </ul>-->
+      <ul class="nav nav-pills pull-right">
+        <li *ngFor="let item of sitemap" role="presentation" [ngClass]="{'active': currentPage === item.Permalink, 'active-child': currentPageChild }">
+          <a [routerLink]="item.Permalink">{{item.MenuTitle}}</a>
+        </li>
+      </ul>
     </nav>
-    <a href="/"><img src="../assets/img/logo.png" alt="Piranha CMS" /></a>
+    <a routerLink="/"><img src="../assets/img/logo.png" alt="Piranha CMS"  role="button"/></a>
   </div>
 </div>
+<router-outlet></router-outlet>
