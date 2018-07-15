@@ -1,9 +1,9 @@
 ﻿using System;
-using CoreWebAngular.Models.Blocks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Piranha;
+using Piranha.Extend.Fields;
 
 namespace CoreWebAngular.Converters
 {
@@ -17,7 +17,7 @@ namespace CoreWebAngular.Converters
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var img = (UrlImageField)value;
+            var img = (ImageField)value;
 
             JObject jo = new JObject();
 
@@ -39,7 +39,7 @@ namespace CoreWebAngular.Converters
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(UrlImageField).IsAssignableFrom(objectType);
+            return typeof(ImageField).IsAssignableFrom(objectType);
         }
     }
 }

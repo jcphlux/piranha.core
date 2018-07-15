@@ -1,7 +1,7 @@
 
 <div class="row" *ngIf="model.Type=='ImageBlock'">
   <div class="col-sm-12">
-    <img [src]="model.Body.Value">
+    <img *ngIf="model.Body.HasValue" [src]="model.Body.Url">
   </div>
 </div>
 

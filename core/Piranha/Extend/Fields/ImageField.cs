@@ -8,6 +8,7 @@
  * 
  */
 
+using Newtonsoft.Json;
 using System;
 
 namespace Piranha.Extend.Fields
@@ -15,6 +16,9 @@ namespace Piranha.Extend.Fields
     [FieldType(Name = "Image", Shorthand = "Image")]
     public class ImageField : MediaFieldBase<ImageField>
     {
+        [JsonIgnore]
+        public int Size { get; set; }
+
         /// <summary>
         /// Implicit operator for converting a Guid id to a field.
         /// </summary>

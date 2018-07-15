@@ -12,7 +12,6 @@ using Piranha.AttributeBuilder;
 using Piranha.Models;
 using Piranha.Extend.Fields;
 using System.Collections.Generic;
-using CoreWebAngular.Models.Blocks;
 
 namespace CoreWebAngular.Models
 {
@@ -26,11 +25,11 @@ namespace CoreWebAngular.Models
         public Regions.SiteHeader Header { get; set; }
 
         [Region(ListExpand=false)]
-        public IList<UrlImageField> Images { get; set; }
+        public IList<ImageField> Images { get; set; }
 
 
         public StandardSite() {
-            Images = new List<UrlImageField>();
+            Images = new List<ImageField>();
         }
     }
 }
