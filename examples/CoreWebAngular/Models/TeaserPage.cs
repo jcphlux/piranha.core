@@ -13,7 +13,7 @@ using Piranha.Models;
 using Piranha.Extend.Fields;
 using System.Collections.Generic;
 
-namespace CoreWebViewModels
+namespace CoreWebAngular.Models
 {
     /// <summary>
     /// Basic page with main content in markdown.

@@ -12,17 +12,18 @@ using Piranha.AttributeBuilder;
 using Piranha.Models;
 using Piranha.Extend.Fields;
 
-namespace CoreWebViewModels
+namespace CoreWebAngular.Models
 {
     /// <summary>
-    /// Base page for the example site.
+    /// Basic blog page.
     /// </summary>
-    public abstract class BasePage<T> : Page<T> where T : BasePage<T>
+    [PageType(Title = "Blog Archive")]
+    public class BlogArchive : BlogPage<BlogArchive>
     {
         /// <summary>
-        /// Gets/sets the page heading.
+        /// Gets/sets the main content.
         /// </summary>
-        [Region(SortOrder = 0)]
-        public Regions.PageHeading Heading { get; set; }
+        [Region(Title = "Main content", SortOrder = 0)]
+        public MarkdownField Body { get; set; }
     }
 }

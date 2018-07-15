@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2017 Håkan Edling
  *
  * This software may be modified and distributed under the terms
@@ -11,15 +11,18 @@
 using Piranha.AttributeBuilder;
 using Piranha.Models;
 using Piranha.Extend.Fields;
-using System.Collections.Generic;
 
-namespace CoreWebViewModels
+namespace CoreWebAngular.Models
 {
     /// <summary>
-    /// Basic page with main content in markdown.
+    /// Base page for the example site.
     /// </summary>
-    [PageType(Title = "Standard page")]
-    public class StandardPage : BasePage<StandardPage>
+    public abstract class BasePage<T> : Page<T> where T : BasePage<T>
     {
+        /// <summary>
+        /// Gets/sets the page heading.
+        /// </summary>
+        [Region(SortOrder = 0)]
+        public Regions.PageHeading Heading { get; set; }
     }
 }

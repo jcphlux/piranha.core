@@ -11,7 +11,7 @@
 using Piranha.AttributeBuilder;
 using Piranha.Extend.Fields;
 
-namespace CoreWebViewModels.Regions
+namespace CoreWebAngular.Models.Regions
 {
     public class SiteHeader
     {

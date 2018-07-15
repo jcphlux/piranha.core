@@ -8,11 +8,11 @@
  * 
  */
 
-using CoreWebViewModels.Blocks;
+using CoreWebAngular.Models.Blocks;
 using Piranha.AttributeBuilder;
 using Piranha.Extend.Fields;
 
-namespace CoreWebViewModels.Regions
+namespace CoreWebAngular.Models.Regions
 {
     /// <summary>
     /// Simple region for some optional page heading information.

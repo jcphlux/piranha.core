@@ -12,7 +12,7 @@ using Piranha.AttributeBuilder;
 using Piranha.Models;
 using Piranha.Extend.Fields;
 
-namespace CoreWebViewModels
+namespace CoreWebAngular.Models
 {
     /// <summary>
     /// Basic post with main content in markdown.

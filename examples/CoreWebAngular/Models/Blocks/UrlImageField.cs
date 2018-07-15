@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Piranha.Extend.Fields;
 
-namespace CoreWebViewModels.Blocks
+namespace CoreWebAngular.Models.Blocks
 {
     public class UrlImageField : ImageField
     {

@@ -12,7 +12,7 @@ using Piranha.Extend;
 using Piranha.Extend.Blocks;
 using Piranha.Extend.Fields;
 
-namespace CoreWebViewModels.Blocks
+namespace CoreWebAngular.Models.Blocks
 {
     [BlockType(Name = "Slider Item", Category = "Content", Icon = "far fa-newspaper", IsUnlisted = true)]
     public class SliderItem : Block

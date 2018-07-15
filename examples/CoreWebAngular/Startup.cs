@@ -80,21 +80,21 @@ namespace CoreWebAngular
             App.Init(api);
 
             // Add custom blocks
-            App.Blocks.Register<CoreWebViewModels.Blocks.SliderGroup>();
+            App.Blocks.Register<Models.Blocks.SliderGroup>();
 
             // Build types
             var pageTypeBuilder = new Piranha.AttributeBuilder.PageTypeBuilder(api)
-                .AddType(typeof(CoreWebViewModels.BlogArchive))
-                .AddType(typeof(CoreWebViewModels.StandardPage))
-                .AddType(typeof(CoreWebViewModels.TeaserPage));
+                .AddType(typeof(Models.BlogArchive))
+                .AddType(typeof(Models.StandardPage))
+                .AddType(typeof(Models.TeaserPage));
             pageTypeBuilder.Build()
                 .DeleteOrphans();
             var postTypeBuilder = new Piranha.AttributeBuilder.PostTypeBuilder(api)
-                .AddType(typeof(CoreWebViewModels.BlogPost));
+                .AddType(typeof(Models.BlogPost));
             postTypeBuilder.Build()
                 .DeleteOrphans();
             var siteTypeBuilder = new Piranha.AttributeBuilder.SiteTypeBuilder(api)
-                .AddType(typeof(CoreWebViewModels.StandardSite));
+                .AddType(typeof(Models.StandardSite));
             siteTypeBuilder.Build()
                 .DeleteOrphans();
 
@@ -192,7 +192,7 @@ namespace CoreWebAngular
                 }
 
                 // Add the startpage
-                var startPage = CoreWebViewModels.TeaserPage.Create(api);
+                var startPage = Models.TeaserPage.Create(api);
 
                 // Add meta info
                 startPage.SiteId = site.Id;
@@ -236,19 +236,19 @@ namespace CoreWebAngular
                 startPage.Published = DateTime.Now;
 
                 // Add teasers
-                startPage.Teasers.Add(new CoreWebViewModels.Regions.Teaser()
+                startPage.Teasers.Add(new Models.Regions.Teaser()
                 {
                     Title = "Cross Platform",
                     Image = platformId,
                     Body = "<p>Built for <code>NetStandard</code> and <code>AspNet Core</code>, Piranha CMS can be run on Windows, Linux and Mac OS X.</p>"
                 });
-                startPage.Teasers.Add(new CoreWebViewModels.Regions.Teaser()
+                startPage.Teasers.Add(new Models.Regions.Teaser()
                 {
                     Title = "Super Fast",
                     Image = stopwatchId,
                     Body = "<p>Designed from the ground up for super-fast performance using <code>EF Core</code> and optional Caching.</p>"
                 });
-                startPage.Teasers.Add(new CoreWebViewModels.Regions.Teaser()
+                startPage.Teasers.Add(new Models.Regions.Teaser()
                 {
                     Title = "Open Source",
                     Image = githubId,
@@ -257,7 +257,7 @@ namespace CoreWebAngular
 
                 api.Pages.Save(startPage);
 
-                var docsPage = CoreWebViewModels.StandardPage.Create(api);
+                var docsPage = Models.StandardPage.Create(api);
                 docsPage.SiteId = site.Id;
                 docsPage.SortOrder = 1;
                 docsPage.Title = "Docs";
@@ -267,7 +267,7 @@ namespace CoreWebAngular
                 api.Pages.Save(docsPage);
 
                 // Add the blog page
-                var blogPage = CoreWebViewModels.BlogArchive.Create(api);
+                var blogPage = Models.BlogArchive.Create(api);
 
                 blogPage.SiteId = site.Id;
                 blogPage.Title = "Blog Archive";
@@ -285,7 +285,7 @@ namespace CoreWebAngular
                 {
                     using (var reader = new StreamReader(stream))
                     {
-                        var post = CoreWebViewModels.BlogPost.Create(api);
+                        var post = Models.BlogPost.Create(api);
 
                         // Add main content
                         post.BlogId = blogPage.Id;

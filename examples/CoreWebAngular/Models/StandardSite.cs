@@ -12,8 +12,9 @@ using Piranha.AttributeBuilder;
 using Piranha.Models;
 using Piranha.Extend.Fields;
 using System.Collections.Generic;
+using CoreWebAngular.Models.Blocks;
 
-namespace CoreWebViewModels
+namespace CoreWebAngular.Models
 {
     /// <summary>
     /// Basic site with some header information.
@@ -25,17 +26,11 @@ namespace CoreWebViewModels
         public Regions.SiteHeader Header { get; set; }
 
         [Region(ListExpand=false)]
-        public IList<ImageField> Images { get; set; }
+        public IList<UrlImageField> Images { get; set; }
 
-        /// <summary>
-        /// Gets/sets the optional teaser image url.
-        /// </summary>
-        [Field]
-        public IList<StringField> ImageUrls { get; set; }
 
         public StandardSite() {
-            Images = new List<ImageField>();
-            ImageUrls = new List<StringField>();
+            Images = new List<UrlImageField>();
         }
     }
 }

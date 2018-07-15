@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2017 Håkan Edling
  *
  * This software may be modified and distributed under the terms
@@ -11,19 +11,15 @@
 using Piranha.AttributeBuilder;
 using Piranha.Models;
 using Piranha.Extend.Fields;
+using System.Collections.Generic;
 
-namespace CoreWebViewModels
+namespace CoreWebAngular.Models
 {
     /// <summary>
-    /// Basic blog page.
+    /// Basic page with main content in markdown.
     /// </summary>
-    [PageType(Title = "Blog Archive")]
-    public class BlogArchive : BlogPage<BlogArchive>
+    [PageType(Title = "Standard page")]
+    public class StandardPage : BasePage<StandardPage>
     {
-        /// <summary>
-        /// Gets/sets the main content.
-        /// </summary>
-        [Region(Title = "Main content", SortOrder = 0)]
-        public MarkdownField Body { get; set; }
     }
 }
