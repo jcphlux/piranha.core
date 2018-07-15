@@ -8,7 +8,7 @@
  * 
  */
 
-using CoreWebAngular.JsonConverter;
+using CoreWebAngular.Converters;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Piranha;
@@ -52,6 +52,7 @@ namespace CoreWebAngular.Controllers
             serializerSettings.Converters.Add(new ClassNameCoverter<ImageBlock>());
             serializerSettings.Converters.Add(new ClassNameCoverter<QuoteBlock>());
             serializerSettings.Converters.Add(new ClassNameCoverter<TextBlock>());
+            serializerSettings.Converters.Add(new ImageCoverter(api));
         }
 
         /// <summary>
@@ -97,10 +98,6 @@ namespace CoreWebAngular.Controllers
         public IActionResult Page(Guid id)
         {
             var model = api.Pages.GetById<Models.StandardPage>(id);
-            //if (model.Heading.PrimaryImage.HasValue)
-            //{
-            //    model.Heading.ImageUrl = Url.Content((string)model.Heading.PrimaryImage);
-            //}
 
             var json = JsonConvert.SerializeObject(model, serializerSettings);
             return new OkObjectResult(json);
@@ -127,16 +124,12 @@ namespace CoreWebAngular.Controllers
         public IActionResult TeaserPage(Guid id)
         {
             var model = api.Pages.GetById<Models.TeaserPage>(id);
-            //if (model.Heading.PrimaryImage.HasValue)
-            //{
-            //    model.Heading.ImageUrl = Url.Content((string) model.Heading.PrimaryImage);
-            //}
 
             foreach (var teaser in model.Teasers)
             {
                 if (teaser.Image.HasValue)
                 {
-                    teaser.ImageUrl = Url.Content(teaser.Image.Resize(api, 256));
+                    teaser.Image.Size = 256;
                 }
             }
 

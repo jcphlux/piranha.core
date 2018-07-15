@@ -14,6 +14,7 @@ export class PageComponent {
   model: any;
   third: any;
   isLoading: boolean = true;
+  isRedirect: boolean = true;
   constructor(private cmsService: CmsService) {
 
   }
@@ -28,8 +29,13 @@ export class PageComponent {
 
     this.cmsService.modelChanged
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((value) => {
+      .subscribe((value) => {       
         this.model = value[0];
+        if (this.model.RedirectUrl && this.model.RedirectUrl !== "") {
+          document.location.replace(this.model.RedirectUrl);
+        } else {
+          this.isRedirect = false;
+        }
       });
   }
 

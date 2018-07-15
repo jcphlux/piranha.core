@@ -1,26 +1,23 @@
-<!--ImageBlock
-    <div class="row">
+
+<div class="row" *ngIf="model.Type=='ImageBlock'">
   <div class="col-sm-12">
-    <img [src]="model">
+    <img [src]="model.Body.Value">
   </div>
-</div>-->
-<!--QuoteBlock
-    <div class="row">
+</div>
+
+<div class="row" *ngIf="model.Type=='QuoteBlock'">
   <div class="col-sm-12">
-    <blockquote>
-      @Model.Body
+    <blockquote [innerHTML]="model.Body.Value">
     </blockquote>
   </div>
-</div>-->
-<!--HtmlBlock
-    <div class="row">
-  <div class="col-sm-12">
-    @Html.Raw(Model.Body)
+</div>
+
+<div class="row" *ngIf="model.Type=='HtmlBlock'">
+  <div class="col-sm-12" [innerHTML]="model.Body.Value">
   </div>
-</div>-->
-<!--HtmlColumnBlock
-    <div class="row">
-  <div class="col-sm-6">@Html.Raw(Model.Column1)</div>
-  <div class="col-sm-6">@Html.Raw(Model.Column2)</div>
-</div>-->
-block todo
+</div>
+
+<div class="row" *ngIf="model.Type=='HtmlColumnBlock'">
+  <div class="col-sm-6" [innerHTML]="model.Column1.Value"></div>
+  <div class="col-sm-6" [innerHTML]="model.Column1.Value"></div>
+</div>

@@ -6,20 +6,16 @@
       {{model.Body}}
     </div>
 
-      <article *ngFor="let post of model.Archive.Posts">
-        <header>
-          <h2><a href="{{post.Permalink}}">{{post.Title}}</a></h2>
-        </header>
-        <p class="small">Published: {{post.Published | date: 'dd/MM/yyyy'}} in {{post.Category.Title}}</p>
-        <ng-container *ngIf="post.Regions.Heading.Ingress; else block">
-          {{post.Regions.Heading.Ingress}}
-        </ng-container>
-        <ng-container #block>
-          <ng-container *ngIf="post.Blocks">
-            {{post.Blocks[0].Body | firstParagraph}}
-          </ng-container>
-        </ng-container>
-      </article>
+    <article *ngFor="let post of model.Archive.Posts">
+      <header>
+        <h2><a href="{{post.Permalink}}">{{post.Title}}</a></h2>
+      </header>
+      <p class="small">Published: {{post.Published | date: 'dd/MM/yyyy'}} in {{post.Category.Title}}</p>
+
+      <p *ngIf="post.Regions.Heading.Ingress.Value" [innerHTML]="post.Regions.Heading.Ingress.Value"></p>
+
+      <p *ngIf="!post.Regions.Heading.Ingress.Value && post.Blocks" [innerHTML]="post.Blocks[0].Body.Value | firstParagraph"></p>
+    </article>
 
   </div>
 </ng-container>

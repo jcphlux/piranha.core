@@ -7,15 +7,7 @@ import { Component, Input } from '@angular/core';
 
 export class BlockComponent {
 
-  private _model: any;
-  @Input()
-  set model(val: any) {
-    this._model = val;    
-  };
-
-  get model(): any {
-    return this._model;
-  }
+  @Input() model: any;
 
   constructor() { }
 }
