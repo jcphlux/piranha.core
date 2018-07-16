@@ -1,35 +1,30 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
-import { NavigationEnd, Router, NavigationStart } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
 import { ArchiveComponent } from './archive/archive.component';
 import { CmsService } from './cms.service';
-import { PageComponent } from './page/page.component';
-import { TeaserPageComponent } from './teaser/teaser-page.component';
-import { StartComponent } from './start/start.component';
-import { Route } from '@angular/compiler/src/core';
 import { ErrorComponent } from './error/error.component';
+import { PageComponent } from './page/page.component';
+import { PostComponent } from './post/post.component';
+import { StartComponent } from './start/start.component';
+import { TeaserPageComponent } from './teaser/teaser-page.component';
 
 @Component({
   selector: 'cms',
   templateUrl: './cms.component.html'
 })
 
-export class CmsComponent implements OnDestroy, OnInit {
+export class CmsComponent implements OnDestroy {
   isExpanded = false;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   sitemap: any;
   model: any;
   isLoading: boolean = true;
   currentPage: string;
-  currentPageChild: boolean;
+  currentPageParent: string;
   constructor(private cmsService: CmsService, private router: Router) {
-
-  }
-
-  ngOnInit(): void {
-    this.cmsService.loadingChanged
+this.cmsService.loadingChanged
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value) => {
         this.isLoading = value;
@@ -48,22 +43,20 @@ export class CmsComponent implements OnDestroy, OnInit {
         for (let route of value) {
           let link = route.Permalink.substring(1);
 
-          let component: any;
           if (route.PageTypeName === "Teaser Page") {
             if (link === "") {
-              component = StartComponent;
+              siteRoutes.push({ path: link, component: StartComponent });
             } else {
-              component = TeaserPageComponent;
+              siteRoutes.push({ path: link, component: TeaserPageComponent });
             }
-
           } else if (route.PageTypeName === "Blog Archive") {
-            component = ArchiveComponent;
+            siteRoutes.push({ path: link, component: ArchiveComponent });
+            for (let post of route.Items) {
+              siteRoutes.push({ path: post.Permalink.substring(1), component: PostComponent });
+            }
           } if (route.PageTypeName === "Standard page") {
-            component = PageComponent;
-          }
-          if (component) {
-            siteRoutes.push({ path: link, component: component });
-          }
+            siteRoutes.push({ path: link, component: PageComponent });
+          }         
         }
         siteRoutes.push({ path: "**", component: ErrorComponent });
 
@@ -79,8 +72,8 @@ export class CmsComponent implements OnDestroy, OnInit {
       .subscribe((value) => {
         this.model = value[0];
         this.currentPage = value[1];
+        this.currentPageParent = `/${this.currentPage.split("/")[1]}`;
       });
-
   }
 
   ngOnDestroy(): void {

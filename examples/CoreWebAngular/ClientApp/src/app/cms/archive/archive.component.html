@@ -6,7 +6,7 @@
 
     <article *ngFor="let post of model.Archive.Posts">
       <header>
-        <h2><a href="{{post.Permalink}}">{{post.Title}}</a></h2>
+        <h2><a [routerLink]="post.Permalink">{{post.Title}}</a></h2>
       </header>
       <p class="small">Published: {{post.Published | date: 'dd/MM/yyyy'}} in {{post.Category.Title}}</p>
 

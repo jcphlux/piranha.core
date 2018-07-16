@@ -22,7 +22,7 @@
 
     <div class="collapse navbar-collapse" [ngClass]='{ "in": isExpanded }'>
       <ul class="nav navbar-nav">
-        <li *ngFor="let item of sitemap" role="presentation" [ngClass]="{'active': currentPage === item.Permalink, 'active-child': currentPageChild }">
+        <li *ngFor="let item of sitemap" role="presentation" [ngClass]="{'active': currentPage === item.Permalink, 'active-child': currentPageParent === item.Permalink }">
           <a [routerLink]="item.Permalink" (click)="collapse()">{{item.MenuTitle}}</a>
         </li>
       </ul>

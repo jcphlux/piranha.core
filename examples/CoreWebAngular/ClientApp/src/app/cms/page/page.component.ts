@@ -1,14 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CmsService } from '../cms.service';
+import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
+import { CmsService } from '../cms.service';
 
 @Component({
     selector: 'page',
     templateUrl: './page.component.html'
 })
 
-export class PageComponent {
+export class PageComponent implements OnDestroy{
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   model: any;
@@ -16,10 +16,6 @@ export class PageComponent {
   isLoading: boolean = true;
   isRedirect: boolean = true;
   constructor(private cmsService: CmsService) {
-
-  }
-
-  ngOnInit(): void {
 
     this.cmsService.loadingChanged
       .pipe(takeUntil(this.ngUnsubscribe))

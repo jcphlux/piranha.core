@@ -5,9 +5,13 @@ import { NavigationStart, Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 import { catchError, map } from 'rxjs/operators';
+import { setTimeout } from "timers";
 
 @Injectable()
 export class CmsService {
+
+  private routeCache: any[] = [];
+
   public static url: string
 
   sitemapChanged: Subject<any> = new Subject<any>();
@@ -25,49 +29,76 @@ export class CmsService {
     this.getSiteMap()
       .subscribe((result) => this.onSuccessfulGetSiteMap(result),
         (errors: any) => this.onUnsuccessful(errors)
-    );   
+      );
 
     router.events.subscribe((val) => {
       if (val instanceof NavigationStart) {
         this.currentPage = val.url;
-        console.log(this.currentPage);
         this.getModel();
       }
-    });  
+    });
   }
 
   private getModel() {
     if (!this.sitemap || !this.currentPage)
       return;
+
     this.loadingChanged.next(true);
 
-    let route = this.sitemap.find(route => {
-      return route.Permalink === this.currentPage
+    let route = this.getRouteId(this.sitemap, this.currentPage);
+    let model = this.routeCache.find(model => {
+      return model.Id === route.Id;
     });
-    if (route.PageTypeName === "Teaser Page") {
+    if (model) {
+      setTimeout(() => {
+        this.onSuccessfulGetModel(model, true);
+        this.loadingChanged.next(false);
+      }, 50);
+    } else if (route.PageTypeName === "Teaser Page") {
       this.getTeaserPage(route.Id)
         .subscribe((result) => this.onSuccessfulGetModel(result),
           (errors: any) => this.onUnsuccessful(errors),
-        () => this.loadingChanged.next(false));
+          () => this.loadingChanged.next(false));
     } else if (route.PageTypeName === "Blog Archive") {
       this.getArchive(route.Id)
         .subscribe((result) => this.onSuccessfulGetModel(result),
           (errors: any) => this.onUnsuccessful(errors),
-        () => this.loadingChanged.next(false));
-    } if (route.PageTypeName === "Standard page") {
+          () => this.loadingChanged.next(false));
+    } else if (route.PageTypeName === "BlogPost") {
+      this.getPost(route.Id)
+        .subscribe((result) => this.onSuccessfulGetModel(result),
+          (errors: any) => this.onUnsuccessful(errors),
+          () => this.loadingChanged.next(false));
+    } else if (route.PageTypeName === "Standard page") {
       this.getPage(route.Id)
         .subscribe((result) => this.onSuccessfulGetModel(result),
           (errors: any) => this.onUnsuccessful(errors),
-        () => this.loadingChanged.next(false));
+          () => this.loadingChanged.next(false));
     }
   }
 
-  private onSuccessfulGetSiteMap(result): void {
+  private getRouteId(routes: any, route: string): any {
+    for (let route of routes) {
+      if (route.Permalink === this.currentPage)
+        return route;
+      if (route.Items.length >= 0) {
+        let id = this.getRouteId(route.Items, route);
+        if (id != null)
+          return id;
+      }
+    }
+    return null;
+  }
+
+  private onSuccessfulGetSiteMap(result): void {   
     this.sitemap = result;
     this.sitemapChanged.next(this.sitemap);
   }
 
-  private onSuccessfulGetModel(result: any) {
+  private onSuccessfulGetModel(result: any, fronCache: boolean = false) {
+     if (!fronCache) {
+      this.routeCache.push(result);
+    }
     this.model = result;
     this.modelChanged.next([this.model, this.currentPage]);
   }
@@ -118,7 +149,7 @@ export class CmsService {
     return this.http.get(url)
       .pipe(map(res => res.json()),
         catchError(this.handleError));
-  }  
+  }
 
   private handleError(error: any) {
     let applicationError = error.headers.get('Application-Error');

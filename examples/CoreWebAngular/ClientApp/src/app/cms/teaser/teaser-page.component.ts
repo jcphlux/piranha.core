@@ -1,24 +1,19 @@
-import { Component } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
-import { CmsService } from '../cms.service';
+import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
+import { CmsService } from '../cms.service';
 
 @Component({
     selector: 'teaser-page',
     templateUrl: './teaser-page.component.html'
 })
 
-export class TeaserPageComponent {
+export class TeaserPageComponent implements OnDestroy{
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   model: any;
   isLoading: boolean = true;
   constructor(private cmsService: CmsService) {
-
-  }
-
-  ngOnInit(): void {
 
     this.cmsService.loadingChanged
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -32,6 +27,7 @@ export class TeaserPageComponent {
         this.model = value[0];
       });
   }
+
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();

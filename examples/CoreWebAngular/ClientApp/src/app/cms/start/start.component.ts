@@ -1,25 +1,20 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CmsService } from '../cms.service';
+import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
+import { CmsService } from '../cms.service';
 
 @Component({
     selector: 'start',
     templateUrl: './start.component.html'
 })
 
-export class StartComponent {
+export class StartComponent implements OnDestroy{
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   model: any;
   isLoading: boolean = true;
   constructor(private cmsService: CmsService) {
-
-  }
-
-  ngOnInit(): void {
-
-    this.cmsService.loadingChanged
+ this.cmsService.loadingChanged
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value) => {
         this.isLoading = value;

@@ -1,4 +1,4 @@
-<div class="container body">
+<div class="container body" *ngIf="!isLoading">
   <h1>{{model.Title}}</h1>
 
   <p class="small">
@@ -9,7 +9,7 @@
 
   <img *ngIf="model.Heading.PrimaryImage.HasValue" [src]="model.Heading.ImageUrl">
 
-  <div *ngIf="model.Heading.Ingress.Value" class="lead">{{model.Heading.Ingress.Value}}</div>
+  <div *ngIf="model.Heading.Ingress.Value" class="lead" [innerHTML]="model.Heading.Ingress.Value"></div>
 
   <block *ngFor="let block of model.Blocks" [model]="block"></block>
 </div>

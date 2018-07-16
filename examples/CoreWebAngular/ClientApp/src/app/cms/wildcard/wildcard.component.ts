@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
-import { CmsService } from '../cms.service';
+import { Component, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { CmsService } from '../cms.service';
 
 @Component({
   selector: 'wildcard',
   templateUrl: './wildcard.component.html'
 })
  // WildCardComponent to deal with sitemap not being loaded for deep liinking
-export class WildCardComponent {
+export class WildCardComponent implements OnDestroy{
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   sitemap: any;
@@ -19,11 +19,7 @@ export class WildCardComponent {
   currentPageChild: boolean;
 
   constructor(private cmsService: CmsService, private router: Router) {
-
-  }
-
-  ngOnInit(): void {
-    this.cmsService.sitemapChanged
+this.cmsService.sitemapChanged
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value) => {
           this.router.navigate([this.router.url])
