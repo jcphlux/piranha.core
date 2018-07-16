@@ -2,10 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CmsService } from '../cms.service';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
+import { fadeInAnimation } from '../shared/fade-in.animation';
 
 @Component({
     selector: 'post',
-    templateUrl: './post.component.html'
+  templateUrl: './post.component.html',
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': "" }
 })
 
 export class PostComponent {

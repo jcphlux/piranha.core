@@ -72,7 +72,8 @@ this.cmsService.loadingChanged
       .subscribe((value) => {
         this.model = value[0];
         this.currentPage = value[1];
-        this.currentPageParent = `/${this.currentPage.split("/")[1]}`;
+        let parent = `/${this.currentPage.split("/")[1]}`;
+        this.currentPageParent = this.currentPage != parent ? parent : "";
       });
   }
 

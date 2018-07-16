@@ -2,10 +2,13 @@ import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
 import { CmsService } from '../cms.service';
+import { fadeInAnimation } from '../shared/fade-in.animation';
 
 @Component({
   selector: 'archive',
-  templateUrl: './archive.component.html'
+  templateUrl: './archive.component.html',
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': "" }
 })
 
 export class ArchiveComponent implements OnDestroy{

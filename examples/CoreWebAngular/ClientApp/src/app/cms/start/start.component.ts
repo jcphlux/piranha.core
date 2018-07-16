@@ -2,10 +2,13 @@ import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
 import { CmsService } from '../cms.service';
+import { fadeInAnimation } from '../shared/fade-in.animation';
 
 @Component({
     selector: 'start',
-    templateUrl: './start.component.html'
+  templateUrl: './start.component.html',
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': "" }
 })
 
 export class StartComponent implements OnDestroy{

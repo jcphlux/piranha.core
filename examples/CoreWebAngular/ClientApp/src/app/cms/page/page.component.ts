@@ -2,10 +2,13 @@ import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
 import { CmsService } from '../cms.service';
+import { fadeInAnimation } from '../shared/fade-in.animation';
 
 @Component({
     selector: 'page',
-    templateUrl: './page.component.html'
+  templateUrl: './page.component.html',
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': "" }
 })
 
 export class PageComponent implements OnDestroy{
@@ -14,7 +17,6 @@ export class PageComponent implements OnDestroy{
   model: any;
   third: any;
   isLoading: boolean = true;
-  isRedirect: boolean = true;
   constructor(private cmsService: CmsService) {
 
     this.cmsService.loadingChanged
@@ -26,12 +28,7 @@ export class PageComponent implements OnDestroy{
     this.cmsService.modelChanged
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value) => {       
-        this.model = value[0];
-        if (this.model.RedirectUrl && this.model.RedirectUrl !== "") {
-          document.location.replace(this.model.RedirectUrl);
-        } else {
-          this.isRedirect = false;
-        }
+        this.model = value[0];        
       });
   }
 

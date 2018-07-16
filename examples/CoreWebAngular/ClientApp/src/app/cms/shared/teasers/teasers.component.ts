@@ -1,9 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { fadeInAnimation } from '../fade-in.animation';
 
 @Component({
   selector: 'teasers',
-  templateUrl: './teasers.component.html'
+  templateUrl: './teasers.component.html',
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': "" }
 })
 
 export class TeasersComponent {

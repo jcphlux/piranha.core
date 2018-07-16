@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
-import { Meta } from "@angular/platform-browser";
+import { Meta, Title } from "@angular/platform-browser";
 import { NavigationStart, Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
@@ -22,7 +22,7 @@ export class CmsService {
   private model: any;
   private currentPage: string;
 
-  constructor(private http: Http, private router: Router, private meta: Meta) {
+  constructor(private http: Http, private router: Router, private meta: Meta, private title: Title) {
 
     this.currentPage = router.url;
 
@@ -43,13 +43,14 @@ export class CmsService {
     if (!this.sitemap || !this.currentPage)
       return;
 
-    this.loadingChanged.next(true);
+    //this.loadingChanged.next(true);
 
     let route = this.getRouteId(this.sitemap, this.currentPage);
     let model = this.routeCache.find(model => {
       return model.Id === route.Id;
     });
     if (model) {
+      //timeout is to allow the view to load before sending the model from cache
       setTimeout(() => {
         this.onSuccessfulGetModel(model, true);
         this.loadingChanged.next(false);
@@ -90,17 +91,31 @@ export class CmsService {
     return null;
   }
 
-  private onSuccessfulGetSiteMap(result): void {   
+  private onSuccessfulGetSiteMap(result): void {
     this.sitemap = result;
     this.sitemapChanged.next(this.sitemap);
   }
 
   private onSuccessfulGetModel(result: any, fronCache: boolean = false) {
-     if (!fronCache) {
+    if (!fronCache) {
       this.routeCache.push(result);
     }
-    this.model = result;
-    this.modelChanged.next([this.model, this.currentPage]);
+    if (result.RedirectUrl && result.RedirectUrl !== "") {
+      document.location.replace(result.RedirectUrl);
+    } else {
+      this.model = result;
+      this.modelChanged.next([this.model, this.currentPage]);
+
+      this.title.setTitle(this.model.Title);
+
+      this.meta.updateTag({ name: "keywords", content: this.model.MetaKeywords.length > 0 ? this.model.MetaKeywords : "" });
+
+      this.meta.updateTag({ name: "og:title", content: this.model.Title });
+
+      this.meta.updateTag({ name: "description", content: this.model.MetaDescription.length > 0 ? this.model.MetaDescription : "" });
+
+      this.meta.updateTag({ name: "og:description", content: this.model.MetaDescription.length > 0 ? this.model.MetaDescription : "" });
+    }
   }
 
   private onUnsuccessful(result: any) {
@@ -112,15 +127,6 @@ export class CmsService {
     return this.http.get(url)
       .pipe(map(res => res.json()),
         catchError(this.handleError));
-  }
-
-  private getUrlId(url: string): string {
-    //for (let route of this.sitemap) {
-    //  if (route.Permalink === )
-    //}
-    return this.sitemap.find(route => {
-      return route.Permalink === url
-    }).Id;
   }
 
   private getArchive(id: string, year: number = null, month: number = null, page: number = null, category: string = null, tag: string = null): Observable<any> {
