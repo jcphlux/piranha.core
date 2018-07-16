@@ -2,9 +2,7 @@
   <div class="container body">
     <h1>{{model.Title}}</h1>
 
-    <div class="lead">
-      {{model.Body}}
-    </div>
+    <div class="lead" [innerHTML]="model.Body.Value"></div>
 
     <article *ngFor="let post of model.Archive.Posts">
       <header>

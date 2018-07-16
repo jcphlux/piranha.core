@@ -9,6 +9,7 @@ import { PageComponent } from './page/page.component';
 import { TeaserPageComponent } from './teaser/teaser-page.component';
 import { StartComponent } from './start/start.component';
 import { Route } from '@angular/compiler/src/core';
+import { ErrorComponent } from './error/error.component';
 
 @Component({
   selector: 'cms',
@@ -16,7 +17,7 @@ import { Route } from '@angular/compiler/src/core';
 })
 
 export class CmsComponent implements OnDestroy, OnInit {
-
+  isExpanded = false;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   sitemap: any;
   model: any;
@@ -61,9 +62,11 @@ export class CmsComponent implements OnDestroy, OnInit {
             component = PageComponent;
           }
           if (component) {
-            siteRoutes.push({ path: link, component: component })
+            siteRoutes.push({ path: link, component: component });
           }
         }
+        siteRoutes.push({ path: "**", component: ErrorComponent });
+
         parent.children = siteRoutes;
 
         this.router.resetConfig(routes);
@@ -83,5 +86,13 @@ export class CmsComponent implements OnDestroy, OnInit {
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  collapse() {
+    this.isExpanded = false;
+  }
+
+  toggle() {
+    this.isExpanded = !this.isExpanded;
   }
 }

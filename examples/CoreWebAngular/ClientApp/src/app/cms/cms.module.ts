@@ -12,6 +12,7 @@ import { FirstParagraphPipe } from './shared/utils';
 import { StartComponent } from './start/start.component';
 import { TeaserPageComponent } from './teaser/teaser-page.component';
 import { WildCardComponent } from './wildcard/wildcard.component';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { WildCardComponent } from './wildcard/wildcard.component';
     PostComponent,
     StartComponent,
     TeasersComponent,
-    TeaserPageComponent
+    TeaserPageComponent,
+    ErrorComponent
   ],
   declarations: [
     FirstParagraphPipe,
@@ -45,7 +47,8 @@ import { WildCardComponent } from './wildcard/wildcard.component';
     PostComponent,
     StartComponent,
     TeasersComponent,
-    TeaserPageComponent
+    TeaserPageComponent,
+    ErrorComponent
   ],
   exports: [
     RouterModule,
@@ -58,7 +61,8 @@ import { WildCardComponent } from './wildcard/wildcard.component';
     PostComponent,
     StartComponent,
     TeasersComponent,
-    TeaserPageComponent
+    TeaserPageComponent,
+    ErrorComponent
   ],
 
 })

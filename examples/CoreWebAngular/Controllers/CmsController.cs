@@ -13,8 +13,10 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Piranha;
 using Piranha.Extend.Blocks;
+using Piranha.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CoreWebAngular.Controllers
 {
@@ -44,7 +46,7 @@ namespace CoreWebAngular.Controllers
 
             serializerSettings = new JsonSerializerSettings
             {
-                Formatting = Formatting.Indented    
+                Formatting = Formatting.Indented
             };
 
             serializerSettings.Converters.Add(new ClassNameCoverter<HtmlBlock>());
@@ -60,11 +62,47 @@ namespace CoreWebAngular.Controllers
         /// </summary>
         /// <param name="id">The unique id</param>
         [HttpGet("sitemap")]
-        public IActionResult Sitemap(Guid id)
+        public IActionResult Sitemap(Guid? id = null)
         {
-            var model = Guid.Empty.Equals(id) ? api.Sites.GetSitemap() : api.Sites.GetSitemap(id);
+            var model = api.Sites.GetSitemap(id);
+
+            foreach (var partial in model)
+            {
+                if (partial.PageTypeName == "Blog Archive")
+                {
+                    ((List<SitemapItem>)partial.Items).AddRange(GetArchiveItems(partial.Id, partial.Level));
+                }
+            }
+
             var json = JsonConvert.SerializeObject(model, serializerSettings);
             return new OkObjectResult(json);
+        }
+
+        private List<SitemapItem> GetArchiveItems(Guid id, int level)
+        {
+            var model = new List<SitemapItem>();
+            var posts = api.Posts.GetAll(id).Where(p => p.Published <= DateTime.Now).ToList();
+
+            for (int i = 0; i < posts.Count; i++)
+            {
+                DynamicPost item = posts[i];
+                var smItem = new SitemapItem
+                {
+                    ParentId = id,
+                    SortOrder = i,
+                    Title = item.Title,
+                    NavigationTitle = item.Title,
+                    PageTypeName = item.TypeId,
+                    Permalink = item.Permalink,
+                    Published = item.Published,
+                    Created = item.Created,
+                    LastModified = item.LastModified,
+                    Id = item.Id,
+                    Level = level + 1
+                };
+                model.Add(smItem);
+            }
+            return model;
         }
 
         /// <summary>
@@ -90,6 +128,7 @@ namespace CoreWebAngular.Controllers
             return new OkObjectResult(json);
         }
 
+
         /// <summary>
         /// Gets the page with the specified id.
         /// </summary>
@@ -110,7 +149,7 @@ namespace CoreWebAngular.Controllers
         [HttpGet("post")]
         public IActionResult Post(Guid id)
         {
-            var model = api.Posts.GetById<Models.BlogPost>(id);           
+            var model = api.Posts.GetById<Models.BlogPost>(id);
 
             var json = JsonConvert.SerializeObject(model, serializerSettings);
             return new OkObjectResult(json);
