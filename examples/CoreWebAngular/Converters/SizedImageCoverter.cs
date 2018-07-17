@@ -7,17 +7,17 @@ using Piranha.Extend.Fields;
 
 namespace CoreWebAngular.Converters
 {
-    public class ImageCoverter : JsonConverter
+    public class SizedImageCoverter : JsonConverter
     {
         private IApi Api;
-        public ImageCoverter(IApi api)
+        public SizedImageCoverter(IApi api)
         {
             Api = api;
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var img = (ImageField)value;
+            var img = (SizedImageField)value;
 
             JObject jo = new JObject();
 
@@ -25,7 +25,16 @@ namespace CoreWebAngular.Converters
 
             if (img.HasValue)
             {
-                var url = ((string)img).Substring(1);                
+                var url = "";
+                if(img.Width != null && img.Width.Value > 0)
+                {
+                    url = img.Resize(Api, img.Width.Value, img.Height).Substring(1);
+                }
+                else
+                {
+                    url = ((string)img).Substring(1);
+                }
+                
                 jo.Add(new JProperty("Url", url));
             }
 
@@ -39,7 +48,7 @@ namespace CoreWebAngular.Converters
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(ImageField).IsAssignableFrom(objectType);
+            return typeof(SizedImageField).IsAssignableFrom(objectType);
         }
     }
 }

@@ -9,6 +9,7 @@
  */
 
 using CoreWebAngular.Converters;
+using CoreWebAngular.Models.Blocks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Piranha;
@@ -52,8 +53,10 @@ namespace CoreWebAngular.Controllers
             serializerSettings.Converters.Add(new ClassNameCoverter<HtmlBlock>());
             serializerSettings.Converters.Add(new ClassNameCoverter<HtmlColumnBlock>());
             serializerSettings.Converters.Add(new ClassNameCoverter<ImageBlock>());
+            serializerSettings.Converters.Add(new ClassNameCoverter<SizedImageBlock>());
             serializerSettings.Converters.Add(new ClassNameCoverter<QuoteBlock>());
             serializerSettings.Converters.Add(new ClassNameCoverter<TextBlock>());
+            serializerSettings.Converters.Add(new SizedImageCoverter(api));
             serializerSettings.Converters.Add(new ImageCoverter(api));
         }
 
@@ -164,13 +167,13 @@ namespace CoreWebAngular.Controllers
         {
             var model = api.Pages.GetById<Models.TeaserPage>(id);
 
-            foreach (var teaser in model.Teasers)
-            {
-                if (teaser.Image.HasValue)
-                {
-                    teaser.Image.Size = 256;
-                }
-            }
+            //foreach (var teaser in model.Teasers)
+            //{
+            //    if (teaser.Image.HasValue)
+            //    {
+            //        teaser.Image.Size = 256;
+            //    }
+            //}
 
             var json = JsonConvert.SerializeObject(model, serializerSettings);
             return new OkObjectResult(json);

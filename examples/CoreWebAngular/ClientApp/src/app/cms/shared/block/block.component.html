@@ -1,5 +1,5 @@
 
-<div class="row" *ngIf="model.Type=='ImageBlock'">
+<div class="row" *ngIf="model.Type=='ImageBlock' || model.Type=='SizedImageBlock'">
   <div class="col-sm-12">
     <img *ngIf="model.Body.HasValue" [src]="model.Body.Url">
   </div>

@@ -20,6 +20,8 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using CoreWebAngular.Models.Fields;
+using CoreWebAngular.Models.Blocks;
 
 namespace CoreWebAngular
 {
@@ -81,8 +83,12 @@ namespace CoreWebAngular
             var api = services.GetService<IApi>();
             App.Init(api);
 
+            // Add custom fields
+            App.Fields.Register<SizedImageField>();
+
             // Add custom blocks
-            App.Blocks.Register<Models.Blocks.SliderGroup>();
+            App.Blocks.Register<SliderGroup>();
+            App.Blocks.Register<SizedImageBlock>();
 
             // Build types
             var pageTypeBuilder = new Piranha.AttributeBuilder.PageTypeBuilder(api)
@@ -105,7 +111,7 @@ namespace CoreWebAngular
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseAuthentication();
-            //app.UsePiranha();
+           // app.UsePiranha();
             app.UsePiranhaManager();
 
             app.UseMvc(routes =>
@@ -241,19 +247,19 @@ namespace CoreWebAngular
                 startPage.Teasers.Add(new Models.Regions.Teaser()
                 {
                     Title = "Cross Platform",
-                    Image = platformId,
+                    Image = SizedImageField.WithSize(platformId,256),
                     Body = "<p>Built for <code>NetStandard</code> and <code>AspNet Core</code>, Piranha CMS can be run on Windows, Linux and Mac OS X.</p>"
                 });
                 startPage.Teasers.Add(new Models.Regions.Teaser()
                 {
                     Title = "Super Fast",
-                    Image = stopwatchId,
+                    Image = SizedImageField.WithSize(stopwatchId, 256),
                     Body = "<p>Designed from the ground up for super-fast performance using <code>EF Core</code> and optional Caching.</p>"
                 });
                 startPage.Teasers.Add(new Models.Regions.Teaser()
                 {
                     Title = "Open Source",
-                    Image = githubId,
+                    Image = SizedImageField.WithSize(githubId, 256),
                     Body = "<p>Everything is Open Source and released under the <code>MIT</code> license for maximum flexibility.</p>"
                 });
 

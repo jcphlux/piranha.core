@@ -8,6 +8,7 @@
  * 
  */
 
+using CoreWebAngular.Models.Fields;
 using Piranha.AttributeBuilder;
 using Piranha.Extend.Fields;
 
@@ -22,7 +23,7 @@ namespace CoreWebAngular.Models.Regions
         /// Gets/sets the optional primary image.
         /// </summary>
         [Field(Title = "Primary Image")]
-        public ImageField PrimaryImage { get; set; }
+        public SizedImageField PrimaryImage { get; set; }
 
 
 

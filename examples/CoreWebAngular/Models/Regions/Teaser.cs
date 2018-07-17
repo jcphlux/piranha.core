@@ -8,6 +8,7 @@
  * 
  */
 
+using CoreWebAngular.Models.Fields;
 using Piranha.AttributeBuilder;
 using Piranha.Extend.Fields;
 using Piranha.Models;
@@ -29,7 +30,7 @@ namespace CoreWebAngular.Models.Regions
         /// Gets/sets the optional teaser image.
         /// </summary>
         [Field]
-        public ImageField Image { get; set; }
+        public SizedImageField Image { get; set; }
 
         /// <summary>
         /// Gets/sets the body.
